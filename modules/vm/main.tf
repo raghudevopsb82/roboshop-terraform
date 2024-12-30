@@ -1,16 +1,16 @@
 resource "azurerm_public_ip" "main" {
-  name                = "${var.component}-ip"
+  name                = "${var.component}-${var.env}-ip"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   allocation_method   = "Static"
 
   tags = {
-    component = var.component
+    component = "${var.component}-${var.env}-ip"
   }
 }
 
 resource "azurerm_network_interface" "main" {
-  name                = "${var.component}-nic"
+  name                = "${var.component}-${var.env}-nic"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
 
@@ -23,7 +23,7 @@ resource "azurerm_network_interface" "main" {
 }
 
 resource "azurerm_network_security_group" "main" {
-  name                = "${var.component}-nsg"
+  name                = "${var.component}-${var.env}-nsg"
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
 
@@ -40,7 +40,7 @@ resource "azurerm_network_security_group" "main" {
   }
 
   tags = {
-    component = var.component
+    component = "${var.component}-${var.env}-nsg"
   }
 }
 
@@ -51,7 +51,7 @@ resource "azurerm_network_interface_security_group_association" "main" {
 }
 
 resource "azurerm_dns_a_record" "main" {
-  name                = "${var.component}-dev"
+  name                = "${var.component}-${var.env}"
   zone_name           = "azdevopsb82.online"
   resource_group_name = data.azurerm_resource_group.main.name
   ttl                 = 10
@@ -61,7 +61,7 @@ resource "azurerm_dns_a_record" "main" {
 
 resource "azurerm_virtual_machine" "main" {
   depends_on            = [azurerm_network_interface_security_group_association.main, azurerm_dns_a_record.main]
-  name                  = var.component
+  name                  = "${var.component}-${var.env}"
   location              = data.azurerm_resource_group.main.location
   resource_group_name   = data.azurerm_resource_group.main.name
   network_interface_ids = [azurerm_network_interface.main.id]
@@ -76,7 +76,7 @@ resource "azurerm_virtual_machine" "main" {
   }
 
   storage_os_disk {
-    name              = var.component
+    name              = "${var.component}-${var.env}"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
@@ -90,7 +90,7 @@ resource "azurerm_virtual_machine" "main" {
     disable_password_authentication = false
   }
   tags = {
-    component = var.component
+    component = "${var.component}-${var.env}"
   }
 }
 
@@ -112,7 +112,7 @@ resource "null_resource" "ansible" {
     inline = [
       "sudo dnf install python3.12-pip -y",
       "sudo pip3.12 install ansible",
-      "ansible-pull -i localhost, -U https://github.com/raghudevopsb82/roboshop-ansible roboshop.yml -e app_name=${var.component} -e ENV=dev"
+      "ansible-pull -i localhost, -U https://github.com/raghudevopsb82/roboshop-ansible roboshop.yml -e app_name=${var.component} -e ENV=${var.env}"
     ]
   }
 }
