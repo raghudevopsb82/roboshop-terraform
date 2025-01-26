@@ -16,6 +16,8 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   }
 
+  auto_scaling_enabled = true
+
 
 }
 
