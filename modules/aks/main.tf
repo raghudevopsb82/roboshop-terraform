@@ -9,15 +9,15 @@ resource "azurerm_kubernetes_cluster" "main" {
     name       = "default"
     node_count = 1
     vm_size    = "Standard_D2_v2"
+    enable_auto_scaling = true
+    min_count = 1
+    max_count = 10
   }
 
   identity {
     type = "SystemAssigned"
 
   }
-
-  auto_scaling_enabled = true
-
 
 }
 
