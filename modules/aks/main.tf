@@ -6,9 +6,10 @@ resource "azurerm_kubernetes_cluster" "main" {
   dns_prefix          = "dev"
 
   default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_D2_v2"
+    name                 = "default"
+    node_count           = 1
+    vm_size              = "Standard_D2_v2"
+    auto_scaling_enabled = true
   }
 
 
