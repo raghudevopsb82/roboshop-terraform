@@ -1,4 +1,4 @@
 variable "env" {}
 variable "token" {}
-variable "components" {}
-
+#variable "components" {}
+variable "databases" {}
