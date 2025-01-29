@@ -8,6 +8,6 @@ module "databases" {
   container   = each.value["container"]
 }
 
-module "aks" {
-  source = "./modules/aks"
-}
+# module "aks" {
+#   source = "./modules/aks"
+# }
