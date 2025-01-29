@@ -16,10 +16,17 @@ resource "azurerm_kubernetes_cluster" "main" {
     vnet_subnet_id = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/project-setup-network/subnets/default"
   }
 
+
+
   aci_connector_linux {
     subnet_name = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/project-setup-network/subnets/default"
   }
 
+
+  network_profile {
+    network_plugin = "azure"
+    service_cidr = "10.100.0.0/24"
+  }
 
   identity {
     type = "SystemAssigned"
