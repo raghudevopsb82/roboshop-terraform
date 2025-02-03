@@ -3,7 +3,6 @@ resource "null_resource" "kubeconfig" {
   provisioner "local-exec" {
     command = <<EOF
 az aks get-credentials --resource-group ${data.azurerm_resource_group.main.name} --name main --overwrite-existing
-kubectl apply -f /opt/vault-token.yml
 EOF
   }
 }
@@ -17,6 +16,14 @@ resource "helm_release" "external-secrets" {
   namespace  = "kube-system"
 }
 
+resource "null_resource" "external-secrets" {
+  depends_on = [helm_release.external-secrets]
+  provisioner "local-exec" {
+    command = <<EOF
+kubectl apply -f /opt/vault-token.yml
+EOF
+  }
+}
 
 
 
