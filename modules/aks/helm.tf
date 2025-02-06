@@ -25,19 +25,3 @@ EOF
   }
 }
 
-
-resource helm_release exteranal_dns {
-  name       = "external-dns"
-  repository = "https://kubernetes-sigs.github.io/external-dns/"
-  chart      = "external-dns"
-
-  values = [
-    templatefile("${path.module}/external-dns.yml", {
-      azure_subscription_id  = data.azurerm_subscription.current.subscription_id
-      azure_tenant_id        = data.azurerm_subscription.current.tenant_id
-      external_dns_client_id = azurerm_kubernetes_cluster.main.kubelet_identity.client_id
-      azure_resource_group   = data.azurerm_resource_group.main.name
-    })
-  ]
-}
-
