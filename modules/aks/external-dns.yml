@@ -1,0 +1,17 @@
+provider: azure
+policy: sync
+commonLabels:
+  azure.workload.identity/use: "true"
+serviceAccount:
+  create: true
+  name: external-dns
+  annotations:
+    azure.workload.identity/client-id: ${external_dns_client_id}
+  labels:
+    azure.workload.identity/use: "true"
+azure:
+  subscriptionId: ${azure_subscription_id}
+  tenantId: ${azure_tenant_id}
+  resourceGroup: ${azure_resource_group}
+  useWorkloadIdentityExtension: true
+
