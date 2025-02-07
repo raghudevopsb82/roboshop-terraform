@@ -35,17 +35,31 @@ EOF
   }
 }
 
+resource "null_resource" "external-secrets" {
+  depends_on = [null_resource.kubeconfig]
+  provisioner "local-exec" {
+    command = <<EOT
+      cat <<-EOF > ${path.module}/external-dns.yml
+      {
+        "tenantId": "${data.azurerm_subscription.current.tenant_id}",
+        "subscriptionId": "${data.azurerm_subscription.current.subscription_id}",
+        "resourceGroup": "${data.azurerm_resource_group.main.name}",
+        "useManagedIdentityExtension": true,
+        "userAssignedIdentityID": "${azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id}"
+      }
+      EOF
+      kubectl create secret generic azure-config-file \
+        --namespace "default" \
+        --from-file=${path.module}/external-dns.yml
+    EOT
+  }
+}
+
+
 resource helm_release exteranal_dns {
   name       = "external-dns"
   repository = "https://kubernetes-sigs.github.io/external-dns/"
   chart      = "external-dns"
-  values = [
-    templatefile("${path.module}/external-dns.yml", {
-      azure_subscription_id  = data.azurerm_subscription.current.subscription_id
-      azure_tenant_id        = data.azurerm_subscription.current.tenant_id
-      external_dns_client_id = azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id
-      azure_resource_group   = data.azurerm_resource_group.main.name
-    })
-  ]
+  values     = "${path.module}/external-dns.yml"
 }
 
