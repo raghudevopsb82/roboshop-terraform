@@ -35,28 +35,36 @@ EOF
   }
 }
 
-resource "null_resource" "external-dns-secret" {
+resource "null_resource" "azure-json" {
   depends_on = [null_resource.kubeconfig]
   provisioner "local-exec" {
     command = <<EOT
-      cat <<-EOF > ${path.module}/azure.json
-      {
-        "tenantId": "${data.azurerm_subscription.current.tenant_id}",
-        "subscriptionId": "${data.azurerm_subscription.current.subscription_id}",
-        "resourceGroup": "${data.azurerm_resource_group.main.name}",
-        "useManagedIdentityExtension": true,
-        "userAssignedIdentityID": "${azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id}"
-      }
-      EOF
-      kubectl create secret generic azure-config-file \
-        --namespace "default" \
-        --from-file=${path.module}/azure.json
-    EOT
+cat <<-EOF > ${path.module}/azure.json
+{
+  "tenantId": "${data.azurerm_subscription.current.tenant_id}",
+  "subscriptionId": "${data.azurerm_subscription.current.subscription_id}",
+  "resourceGroup": "${data.azurerm_resource_group.main.name}",
+  "useManagedIdentityExtension": true,
+  "userAssignedIdentityID": "${azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id}"
+}
+EOF
+kubectl create secret generic azure-config-file --namespace "default" --from-file=${path.module}/azure.json
+EOT
   }
 }
 
+# resource "null_resource" "azure-config-secret" {
+#   depends_on = [null_resource.azure-json]
+#   provisioner "local-exec" {
+#     command = <<EOF
+# kubectl create secret generic azure-config-file --namespace "default" --from-file=${path.module}/azure.json
+# EOF
+#   }
+# }
 
-resource helm_release exteranal_dns {
+
+resource "helm_release" exteranal_dns {
+  depends_on = [null_resource.azure-json]
   name       = "external-dns"
   repository = "https://kubernetes-sigs.github.io/external-dns/"
   chart      = "external-dns"
