@@ -60,6 +60,6 @@ resource helm_release exteranal_dns {
   name       = "external-dns"
   repository = "https://kubernetes-sigs.github.io/external-dns/"
   chart      = "external-dns"
-  values     = "${path.module}/external-dns.yml"
+  values     = [file("${path.module}/external-dns.yml")]
 }
 
