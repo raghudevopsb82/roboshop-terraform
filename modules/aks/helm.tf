@@ -45,8 +45,6 @@ EOF
   }
 }
 
-
-
 resource "null_resource" "azure-json" {
   depends_on = [null_resource.kubeconfig]
   provisioner "local-exec" {
@@ -65,7 +63,6 @@ EOT
   }
 }
 
-
 resource "helm_release" exteranal_dns {
   depends_on = [null_resource.azure-json, null_resource.dns-role-assignment]
   name       = "external-dns"
@@ -74,3 +71,11 @@ resource "helm_release" exteranal_dns {
   values     = [file("${path.module}/external-dns.yml")]
 }
 
+resource "null_resource" "ingress-controller" {
+  depends_on = [null_resource.kubeconfig]
+  provisioner "local-exec" {
+    command = <<EOF
+kubectl apply --filename https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+EOF
+  }
+}
