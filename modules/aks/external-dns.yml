@@ -15,9 +15,10 @@ extraVolumes:
       secretName: external-dns-azure
 
 extraVolumeMounts:
-  - name: azure-config-file
+  - name: azure.json
     mountPath: /etc/kubernetes
     readOnly: true
+    
 # azure:
 #   subscriptionId: ${azure_subscription_id}
 #   tenantId: ${azure_tenant_id}
