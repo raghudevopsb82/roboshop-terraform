@@ -35,31 +35,31 @@ EOF
   }
 }
 
-resource "null_resource" "external-dns-secret" {
-  depends_on = [null_resource.kubeconfig]
-  provisioner "local-exec" {
-    command = <<EOT
-      cat <<-EOF > ${path.module}/external-dns.yml
-      {
-        "tenantId": "${data.azurerm_subscription.current.tenant_id}",
-        "subscriptionId": "${data.azurerm_subscription.current.subscription_id}",
-        "resourceGroup": "${data.azurerm_resource_group.main.name}",
-        "useManagedIdentityExtension": true,
-        "userAssignedIdentityID": "${azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id}"
-      }
-      EOF
-      kubectl create secret generic azure-config-file \
-        --namespace "default" \
-        --from-file=${path.module}/external-dns.yml
-    EOT
-  }
-}
+# resource "null_resource" "external-dns-secret" {
+#   depends_on = [null_resource.kubeconfig]
+#   provisioner "local-exec" {
+#     command = <<EOT
+#       cat <<-EOF > ${path.module}/external-dns.yml
+#       {
+#         "tenantId": "${data.azurerm_subscription.current.tenant_id}",
+#         "subscriptionId": "${data.azurerm_subscription.current.subscription_id}",
+#         "resourceGroup": "${data.azurerm_resource_group.main.name}",
+#         "useManagedIdentityExtension": true,
+#         "userAssignedIdentityID": "${azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id}"
+#       }
+#       EOF
+#       kubectl create secret generic azure-config-file \
+#         --namespace "default" \
+#         --from-file=${path.module}/external-dns.yml
+#     EOT
+#   }
+# }
 
 
-resource helm_release exteranal_dns {
-  name       = "external-dns"
-  repository = "https://kubernetes-sigs.github.io/external-dns/"
-  chart      = "external-dns"
-  values     = "${path.module}/external-dns.yml"
-}
+# resource helm_release exteranal_dns {
+#   name       = "external-dns"
+#   repository = "https://kubernetes-sigs.github.io/external-dns/"
+#   chart      = "external-dns"
+#   values     = "${path.module}/external-dns.yml"
+# }
 
