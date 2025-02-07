@@ -9,10 +9,19 @@ serviceAccount:
   #   azure.workload.identity/client-id: ${external_dns_client_id}
   # labels:
   #   azure.workload.identity/use: "true"
-azure:
-  subscriptionId: ${azure_subscription_id}
-  tenantId: ${azure_tenant_id}
-  resourceGroup: ${azure_resource_group}
-  useManagedIdentityExtension: true
-  userAssignedIdentityID: ${external_dns_client_id}
+extraVolumes:
+  - name: azure-config-file
+    secret:
+      secretName: external-dns-azure
+
+extraVolumeMounts:
+  - name: azure-config-file
+    mountPath: /etc/kubernetes
+    readOnly: true
+# azure:
+#   subscriptionId: ${azure_subscription_id}
+#   tenantId: ${azure_tenant_id}
+#   resourceGroup: ${azure_resource_group}
+#   useManagedIdentityExtension: true
+#   userAssignedIdentityID: ${external_dns_client_id}
   # useWorkloadIdentityExtension: true
