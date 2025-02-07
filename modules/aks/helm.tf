@@ -40,7 +40,7 @@ resource "null_resource" "dns-role-assignment" {
   provisioner "local-exec" {
     command = <<EOF
 DNS_ID=$(az network dns zone show --name "azdevopsb82.online" --resource-group "${data.azurerm_resource_group.main.name}" --query "id" --output tsv)
-az role assignment create --role "DNS Zone Contributor" --assignee "${azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id}" --scope "${DNS_ID}"
+az role assignment create --role "DNS Zone Contributor" --assignee "${azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id}" --scope $DNS_ID
 EOF
   }
 }
