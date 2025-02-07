@@ -35,7 +35,7 @@ EOF
   }
 }
 
-resource "null_resource" "external-secrets" {
+resource "null_resource" "external-dns-secret" {
   depends_on = [null_resource.kubeconfig]
   provisioner "local-exec" {
     command = <<EOT
