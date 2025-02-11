@@ -1,0 +1,10 @@
+name: Apply - Terraform
+on: workflow_dispatch
+jobs:
+    apply:
+      runs-on: self-hosted
+      steps:
+        - run: ls -l
+
+
+
