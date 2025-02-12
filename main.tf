@@ -10,4 +10,5 @@ module "databases" {
 
 module "aks" {
   source = "./modules/aks"
+  vault_token = var.token
 }
