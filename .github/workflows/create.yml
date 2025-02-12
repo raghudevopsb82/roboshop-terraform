@@ -13,7 +13,7 @@ jobs:
             url: http://vault.azdevopsb82.online:8200
             token: ${{ secrets.VAULT_TOKEN }}
             secrets: |
-              infra/data/github-actions ARM_CLIENT_ID ;
+              test/data/demo-ssh password ;
           env:
             vault_token: ${{ secrets.VAULT_TOKEN }}
 
