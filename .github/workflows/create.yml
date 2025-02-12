@@ -13,10 +13,10 @@ jobs:
             url: http://vault.azdevopsb82.online:8200
             token: ${{ secrets.VAULT_TOKEN }}
             secrets: |
-              infra/data/github-actions/ARM_CLIENT_ID | ARM_CLIENT_ID ;
-              infra/data/github-actions/ARM_CLIENT_SECRET | ARM_CLIENT_SECRET ;
-              infra/data/github-actions/ARM_SUBSCRIPTION_ID | ARM_SUBSCRIPTION_ID ;
-              infra/data/github-actions/ARM_TENANT_ID | ARM_TENANT_ID ;
+              infra/github-actions/ARM_CLIENT_ID | ARM_CLIENT_ID ;
+              infra/github-actions/ARM_CLIENT_SECRET | ARM_CLIENT_SECRET ;
+              infra/github-actions/ARM_SUBSCRIPTION_ID | ARM_SUBSCRIPTION_ID ;
+              infra/github-actions/ARM_TENANT_ID | ARM_TENANT_ID ;
           env:
             vault_token: ${{ secrets.VAULT_TOKEN }}
 
