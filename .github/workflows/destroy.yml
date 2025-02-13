@@ -10,7 +10,7 @@ jobs:
           id: import-secrets
           uses: hashicorp/vault-action@v2
           with:
-            url: http://vault.azdevopsb82.online:8200
+            url: http://vault-internal.azdevopsb82.online:8200
             token: ${{ secrets.VAULT_TOKEN }}
             secrets: |
               infra/github-actions *;
