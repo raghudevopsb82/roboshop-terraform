@@ -21,6 +21,7 @@ resource "null_resource" "external-secrets" {
   provisioner "local-exec" {
     command = <<EOF
 kubectl create secret generic vault-token --from-literal=token=${var.vault_token}
+kubectl apply -f ${path.module}/files/secretstore.yaml
 EOF
   }
 }
