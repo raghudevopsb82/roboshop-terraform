@@ -35,15 +35,3 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
 }
-
-data "azurerm_container_registry" "main" {
-  name = "roboshopb82"
-  resource_group_name = data.azurerm_resource_group.main.name
-}
-
-resource "azurerm_role_assignment" "example" {
-  principal_id                     = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
-  role_definition_name             = "AcrPull"
-  scope                            = data.azurerm_container_registry.main.id
-  skip_service_principal_aad_check = true
-}
