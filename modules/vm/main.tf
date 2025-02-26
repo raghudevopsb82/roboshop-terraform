@@ -72,7 +72,8 @@ resource "azurerm_virtual_machine" "main" {
 
 
   storage_image_reference {
-    id = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/trail1/providers/Microsoft.Compute/galleries/LDOTrail/images/rhel9-devops-practice/versions/04.12.2024"
+    #id = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/trail1/providers/Microsoft.Compute/galleries/LDOTrail/images/rhel9-devops-practice/versions/04.12.2024"
+    id = "/subscriptions/a906d619-0839-4738-a908-227a8b69d458/resourceGroups/compute-gallery/providers/Microsoft.Compute/galleries/LDORHEL9/images/la-rhel9-devops-practice/versions/1.0.0"
   }
 
   storage_os_disk {
