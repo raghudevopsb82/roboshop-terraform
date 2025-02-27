@@ -34,6 +34,14 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   }
 
+  lifecycle {
+    ignore_changes = [
+      # Ignore changes to tags, e.g. because a management agent
+      # updates these based on some ruleset managed elsewhere.
+      default_node_pool,
+    ]
+  }
+
 }
 
 
