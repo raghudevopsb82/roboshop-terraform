@@ -8,7 +8,7 @@ module "databases" {
   container   = each.value["container"]
 }
 
-# module "aks" {
-#   source = "./modules/aks"
-#   vault_token = var.token
-# }
+module "aks" {
+  source = "./modules/aks"
+  vault_token = var.token
+}
