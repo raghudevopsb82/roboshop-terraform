@@ -37,4 +37,13 @@ EOF
   }
 }
 
+resource "helm_release" "prometheus" {
+  depends_on = [null_resource.kubeconfig]
+  name       = "pstack"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+  namespace  = "kube-system"
+}
+
+
 
