@@ -9,6 +9,8 @@ module "databases" {
 }
 
 module "aks" {
-  source = "./modules/aks"
-  vault_token = var.token
+  source               = "./modules/aks"
+  vault_token          = var.token
+  subscription_id      = var.subscription_id
+  virtual_network_name = "main"
 }
