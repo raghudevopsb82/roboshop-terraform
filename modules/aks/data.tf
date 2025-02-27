@@ -8,3 +8,8 @@ data "azurerm_container_registry" "main" {
   name                = "roboshopb82new"
   resource_group_name = data.azurerm_resource_group.main.name
 }
+
+data "vault_generic_secret" "az" {
+  path = "infra/github-actions"
+}
+
