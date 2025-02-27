@@ -2,7 +2,7 @@ resource "null_resource" "kubeconfig" {
   depends_on = [azurerm_kubernetes_cluster.main]
   provisioner "local-exec" {
     command = <<EOF
-az login --service-principal --username ${data.vault_generic_secret.az.data["ARM_CLIENT_ID"]} --password ${data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]} --tenant ${data.vault_generic_secret.az.data["ARM_TENANT_ID"]} --subscription ${data.vault_generic_secret.az.data["ARM_SUBSCRIPTION_ID"]}
+az login --service-principal --username ${data.vault_generic_secret.az.data["ARM_CLIENT_ID"]} --password ${data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]} --tenant ${data.vault_generic_secret.az.data["ARM_TENANT_ID"]}
 az aks get-credentials --resource-group ${data.azurerm_resource_group.main.name} --name main --overwrite-existing
 EOF
   }
