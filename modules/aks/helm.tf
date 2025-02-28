@@ -64,41 +64,35 @@ EOF
 }
 
 
-#
-# resource "kubernetes_secret" "external-dns" {
-#   metadata {
-#     name = "external-dns-azure"
-#     namespace = "kube-system"
-#   }
-#   data = jsonencode({
-#     "azure.json" = {
-#       "tenantId" = data.vault_generic_secret.az.data["ARM_TENANT_ID"]
-#       "subscriptionId" = var.subscription_id
-#       "resourceGroup"=  data.azurerm_resource_group.main.name
-#       "aadClientId" = data.vault_generic_secret.az.data["ARM_CLIENT_ID"]
-#       "aadClientSecret" = data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]
-#     }
-#   })
-# }
 
-
-resource "null_resource" "external-dns-secret" {
-
-  provisioner "local-exec" {
-    command = <<EOP
-cat <<EOF | kubectl apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: external-dns-azure
-  namespace: kube-system
-data:
-  azure.json: ${data.vault_generic_secret.az.data["EXTERNAL_DNS_SECRET_B64"]}
-EOF
-EOP
+resource "kubernetes_secret" "external-dns" {
+  metadata {
+    name = "external-dns-azure"
+    namespace = "kube-system"
   }
-
+  data = {
+      "azure.json" = data.vault_generic_secret.az.data["EXTERNAL_DNS_SECRET_B64"]
+  }
 }
+
+
+# resource "null_resource" "external-dns-secret" {
+#
+#   provisioner "local-exec" {
+#     command = <<EOP
+# cat <<EOF | kubectl apply -f -
+# apiVersion: v1
+# kind: Secret
+# metadata:
+#   name: external-dns-azure
+#   namespace: kube-system
+# data:
+#   azure.json: ${data.vault_generic_secret.az.data["EXTERNAL_DNS_SECRET_B64"]}
+# EOF
+# EOP
+#   }
+#
+# }
 
 # resource "helm_release" "external-dns" {
 #   depends_on = [null_resource.kubeconfig]
