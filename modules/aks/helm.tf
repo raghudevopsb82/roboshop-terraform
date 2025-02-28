@@ -70,13 +70,10 @@ resource "helm_release" "external-dns" {
   chart      = "external-dns"
   namespace  = "kube-system"
 
-  set_list = [
-    {
+  set {
       name  = "provider.name"
       value = "azure"
     }
-  ]
-
 }
 
 
