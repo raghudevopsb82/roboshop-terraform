@@ -93,14 +93,7 @@ metadata:
   name: external-dns-azure
   namespace: kube-system
 data:
-  azure.json: |
-    {
-      "tenantId" = data.vault_generic_secret.az.data["ARM_TENANT_ID"]
-      "subscriptionId" = var.subscription_id
-      "resourceGroup"=  data.azurerm_resource_group.main.name
-      "aadClientId" = data.vault_generic_secret.az.data["ARM_CLIENT_ID"]
-      "aadClientSecret" = data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]
-    }
+  azure.json: ${data.vault_generic_secret.az.data["EXTERNAL_DNS_SECRET_B64"]}
 EOF
 EOP
   }
