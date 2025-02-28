@@ -12,4 +12,10 @@ provider:
   name: azure
 
 podLabels:
-  azure.workload.identity/use: "false"
+  azure.workload.identity/use: "true"
+
+serviceAccount:
+  labels:
+    azure.workload.identity/use: "true"
+  annotations:
+    azure.workload.identity/client-id: 064a6531-8e58-41ae-bcef-7df94254c7aa
