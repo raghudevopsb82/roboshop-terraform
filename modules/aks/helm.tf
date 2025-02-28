@@ -65,9 +65,10 @@ EOF
 
 
 
-resource "kubernetes_secret_v1_data" "external-dns" {
+resource "kubernetes_secret" "external-dns" {
   metadata {
     name = "external-dns-azure"
+    namespace = "kube-system"
   }
   data = {
     "tenantId" = data.vault_generic_secret.az.data["ARM_TENANT_ID"]
@@ -78,17 +79,17 @@ resource "kubernetes_secret_v1_data" "external-dns" {
   }
 }
 
-resource "helm_release" "external-dns" {
-  depends_on = [null_resource.kubeconfig]
-  name       = "external-dns"
-  repository = "https://kubernetes-sigs.github.io/external-dns/"
-  chart      = "external-dns"
-  namespace  = "kube-system"
-
-  set {
-      name  = "provider.name"
-      value = "azure"
-    }
-}
+# resource "helm_release" "external-dns" {
+#   depends_on = [null_resource.kubeconfig]
+#   name       = "external-dns"
+#   repository = "https://kubernetes-sigs.github.io/external-dns/"
+#   chart      = "external-dns"
+#   namespace  = "kube-system"
+#
+#   set {
+#       name  = "provider.name"
+#       value = "azure"
+#     }
+# }
 
 
