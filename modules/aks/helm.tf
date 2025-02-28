@@ -63,8 +63,6 @@ EOF
   }
 }
 
-
-
 resource "kubernetes_secret" "external-dns" {
   metadata {
     name = "external-dns-azure"
@@ -75,36 +73,15 @@ resource "kubernetes_secret" "external-dns" {
   }
 }
 
-
-# resource "null_resource" "external-dns-secret" {
-#
-#   provisioner "local-exec" {
-#     command = <<EOP
-# cat <<EOF | kubectl apply -f -
-# apiVersion: v1
-# kind: Secret
-# metadata:
-#   name: external-dns-azure
-#   namespace: kube-system
-# data:
-#   azure.json: ${data.vault_generic_secret.az.data["EXTERNAL_DNS_SECRET_B64"]}
-# EOF
-# EOP
-#   }
-#
-# }
-
-# resource "helm_release" "external-dns" {
-#   depends_on = [null_resource.kubeconfig]
-#   name       = "external-dns"
-#   repository = "https://kubernetes-sigs.github.io/external-dns/"
-#   chart      = "external-dns"
-#   namespace  = "kube-system"
-#
-#   set {
-#       name  = "provider.name"
-#       value = "azure"
-#     }
-# }
+resource "helm_release" "external-dns" {
+  depends_on = [null_resource.kubeconfig]
+  name       = "external-dns"
+  repository = "https://kubernetes-sigs.github.io/external-dns/"
+  chart      = "external-dns"
+  namespace  = "kube-system"
+  values = [
+    file("${path.module}/files/external-dns.yml")
+  ]
+}
 
 
