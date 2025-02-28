@@ -70,7 +70,7 @@ resource "kubernetes_secret" "external-dns" {
     name = "external-dns-azure"
     namespace = "kube-system"
   }
-  data = {
+  data = jsonencode({
     "azure.json" = {
       "tenantId" = data.vault_generic_secret.az.data["ARM_TENANT_ID"]
       "subscriptionId" = var.subscription_id
@@ -78,7 +78,7 @@ resource "kubernetes_secret" "external-dns" {
       "aadClientId" = data.vault_generic_secret.az.data["ARM_CLIENT_ID"]
       "aadClientSecret" = data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]
     }
-  }
+  })
 }
 
 # resource "helm_release" "external-dns" {
