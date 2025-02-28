@@ -71,7 +71,7 @@ resource "kubernetes_secret" "external-dns" {
     namespace = "kube-system"
   }
   data = {
-      "azure.json" = data.vault_generic_secret.az.data["EXTERNAL_DNS_SECRET_B64"]
+      "azure.json" = base64decode(data.vault_generic_secret.az.data["EXTERNAL_DNS_SECRET_B64"])
   }
 }
 
