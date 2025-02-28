@@ -19,7 +19,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 
 
   aci_connector_linux {
-    subnet_name = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/default"
+    subnet_name = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/default"
   }
 
 
