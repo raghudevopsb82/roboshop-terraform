@@ -88,7 +88,7 @@ resource "null_resource" "external-dns-secret" {
     command = <<EOP
 cat <<EOF | kubectl apply -f -
 apiVersion: v1
-kind: secret
+kind: Secret
 metadata:
   name: external-dns-azure
   namespace: kube-system
