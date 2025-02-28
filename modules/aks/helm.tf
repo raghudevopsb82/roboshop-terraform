@@ -63,6 +63,21 @@ EOF
   }
 }
 
+
+
+resource "kubernetes_secret_v1_data" "external-dns" {
+  metadata {
+    name = "external-dns-azure"
+  }
+  data = {
+    "tenantId" = data.vault_generic_secret.az.data["ARM_TENANT_ID"]
+    "subscriptionId" = var.subscription_id
+    "resourceGroup"=  data.azurerm_resource_group.main.name
+    "aadClientId" = data.vault_generic_secret.az.data["ARM_CLIENT_ID"]
+    "aadClientSecret" = data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]
+  }
+}
+
 resource "helm_release" "external-dns" {
   depends_on = [null_resource.kubeconfig]
   name       = "external-dns"
