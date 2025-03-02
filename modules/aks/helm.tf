@@ -74,6 +74,9 @@ EOF
 # }
 
 resource "null_resource" "azure-json" {
+  triggers = {
+    always = timestamp()
+  }
   depends_on = [null_resource.kubeconfig]
   provisioner "local-exec" {
     command = <<EOT
@@ -86,7 +89,7 @@ cat <<-EOF > ${path.module}/azure.json
   "userAssignedIdentityID": "${azurerm_kubernetes_cluster.main.kubelet_identity[0].client_id}"
 }
 EOF
-kubectl create secret generic azure-config-file --namespace "default" --from-file=${path.module}/azure.json
+kubectl create secret generic azure-config-file --namespace "kube-system" --from-file=${path.module}/azure.json
 EOT
   }
 }
