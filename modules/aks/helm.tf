@@ -39,7 +39,7 @@ EOF
 
 resource "null_resource" "prometheus-additional-config" {
   triggers = {
-    chart = helm_release.prometheus.metadata
+    chart = helm_release.prometheus.metadata.revision
   }
   depends_on = [null_resource.kubeconfig, helm_release.prometheus]
   provisioner "local-exec" {
