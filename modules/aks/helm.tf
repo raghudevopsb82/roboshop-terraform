@@ -67,7 +67,7 @@ resource "helm_release" "prometheus" {
   namespace  = "kube-system"
   values = [
     file("${path.module}/files/prom-stack.yaml"),
-    file("${path.module}/prometheus-additional-config.yaml")
+    file("${path.module}/files/prometheus-additional-config.yaml")
   ]
 }
 
