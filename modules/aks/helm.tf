@@ -41,7 +41,7 @@ resource "null_resource" "prometheus-additional-config" {
   depends_on = [null_resource.kubeconfig]
   provisioner "local-exec" {
     command = <<EOT
-cat <<-EOF > ${path.module}/prometheus-additional-config.yaml
+cat <<-EOF > ${path.module}/files/prometheus-additional-config.yaml
 prometheus:
   prometheusSpec:
     additionalScrapeConfigs: |
