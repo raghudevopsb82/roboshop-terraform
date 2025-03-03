@@ -38,7 +38,10 @@ EOF
 }
 
 resource "null_resource" "prometheus-additional-config" {
-  depends_on = [null_resource.kubeconfig]
+  triggers = {
+    chart = helm_release.prometheus.metadata
+  }
+  depends_on = [null_resource.kubeconfig, helm_release.prometheus]
   provisioner "local-exec" {
     command = <<EOT
 cat <<-EOF > ${path.module}/files/prometheus-additional-config.yaml
@@ -55,19 +58,19 @@ prometheus:
             port: 9100
             refresh_interval: 30s
 EOF
+helm upgrade -i pstack -n kube-system -f ${path.module}/files/prometheus-additional-config.yaml
 EOT
   }
 }
 
 resource "helm_release" "prometheus" {
-  depends_on = [null_resource.kubeconfig, null_resource.prometheus-additional-config]
+  depends_on = [null_resource.kubeconfig]
   name       = "pstack"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   namespace  = "kube-system"
   values = [
     file("${path.module}/files/prom-stack.yaml"),
-    file("${path.module}/files/prometheus-additional-config.yaml")
   ]
 }
 
