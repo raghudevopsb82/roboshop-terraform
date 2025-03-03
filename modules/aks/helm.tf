@@ -43,6 +43,9 @@ resource "helm_release" "prometheus" {
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   namespace  = "kube-system"
+  values = [
+    file("${path.module}/files/prom-stack.yml")
+  ]
 }
 
 # This chart is not working - https://github.com/kubernetes/ingress-nginx/issues/10863
@@ -98,7 +101,7 @@ resource "helm_release" "external-dns" {
   chart      = "external-dns"
   namespace  = "kube-system"
   values = [
-    file("${path.module}/files/external-dns.yml")
+    file("${path.module}/files/external-dns.yaml")
   ]
 }
 
