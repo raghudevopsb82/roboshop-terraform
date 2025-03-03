@@ -48,6 +48,8 @@ resource "helm_release" "prometheus" {
   ]
 }
 
+# grafaa default username / password - admin / prom-operator
+
 # This chart is not working - https://github.com/kubernetes/ingress-nginx/issues/10863
 # resource "helm_release" "nginx-ingress" {
 #   depends_on = [null_resource.kubeconfig]
