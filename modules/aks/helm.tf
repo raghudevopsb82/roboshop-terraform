@@ -73,10 +73,7 @@ EOF
 #   }
 # }
 
-resource "null_resource" "azure-json" {
-  triggers = {
-    always = timestamp()
-  }
+resource "null_resource" "external-dns-secret" {
   depends_on = [null_resource.kubeconfig]
   provisioner "local-exec" {
     command = <<EOT
@@ -95,7 +92,7 @@ EOT
 }
 
 resource "helm_release" "external-dns" {
-  depends_on = [null_resource.kubeconfig]
+  depends_on = [null_resource.kubeconfig, null_resource.external-dns-secret]
   name       = "external-dns"
   repository = "https://kubernetes-sigs.github.io/external-dns/"
   chart      = "external-dns"
