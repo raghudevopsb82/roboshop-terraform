@@ -37,14 +37,37 @@ EOF
   }
 }
 
-resource "helm_release" "prometheus" {
+resource "null_resource" "prometheus-additional-config" {
   depends_on = [null_resource.kubeconfig]
+  provisioner "local-exec" {
+    command = <<EOT
+cat <<-EOF > ${path.module}/prometheus-additional-config.yaml
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs: |
+      - job_name: 'azure-sp'
+        azure_sd_configs:
+          - tenant_id: ${data.azurerm_subscription.current.tenant_id}
+            client_id: ${data.vault_generic_secret.az.data["ARM_CLIENT_ID"]}
+            client_secret: ${data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]}
+            subscription_id: ${data.azurerm_subscription.current.tenant_id}
+            resource_group: ${data.azurerm_resource_group.main.name}
+            port: 9100
+            refresh_interval: 30s
+EOF
+EOT
+  }
+}
+
+resource "helm_release" "prometheus" {
+  depends_on = [null_resource.kubeconfig, null_resource.prometheus-additional-config]
   name       = "pstack"
   repository = "https://prometheus-community.github.io/helm-charts"
   chart      = "kube-prometheus-stack"
   namespace  = "kube-system"
   values = [
-    file("${path.module}/files/prom-stack.yaml")
+    file("${path.module}/files/prom-stack.yaml"),
+    file("${path.module}/prometheus-additional-config.yaml")
   ]
 }
 
