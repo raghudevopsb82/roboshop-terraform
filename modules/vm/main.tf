@@ -91,7 +91,8 @@ resource "azurerm_virtual_machine" "main" {
     disable_password_authentication = false
   }
   tags = {
-    component = "${var.component}-${var.env}"
+    component         = "${var.component}-${var.env}"
+    prometheus_scrape = "true"
   }
 }
 
