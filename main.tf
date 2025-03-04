@@ -13,4 +13,6 @@ module "aks" {
   vault_token          = var.token
   subscription_id      = var.subscription_id
   virtual_network_name = "main"
+  env                  = var.env
 }
+

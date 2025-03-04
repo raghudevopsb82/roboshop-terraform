@@ -5,7 +5,7 @@ grafana:
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
-      - grafana-dev.azdevopsb82.online
+      - grafana-${env}.azdevopsb82.online
     path: /
 
 prometheus:
@@ -15,7 +15,7 @@ prometheus:
     annotations:
       nginx.ingress.kubernetes.io/rewrite-target: /
     hosts:
-      - prometheus-dev.azdevopsb82.online
+      - prometheus-${env}.azdevopsb82.online
     path: /
   prometheusSpec:
     additionalScrapeConfigs: |
