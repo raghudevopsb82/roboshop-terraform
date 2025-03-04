@@ -37,31 +37,31 @@ EOF
   }
 }
 
-resource "null_resource" "prometheus-additional-config" {
-  triggers = {
-    always = timestamp()
-  }
-  depends_on = [null_resource.kubeconfig, helm_release.prometheus]
-  provisioner "local-exec" {
-    command = <<EOT
-cat <<-EOF > ${path.module}/files/prometheus-additional-config.yaml
-prometheus:
-  prometheusSpec:
-    additionalScrapeConfigs: |
-      - job_name: 'azure-sp'
-        azure_sd_configs:
-          - tenant_id: ${data.azurerm_subscription.current.tenant_id}
-            client_id: ${data.vault_generic_secret.az.data["ARM_CLIENT_ID"]}
-            client_secret: ${data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]}
-            subscription_id: ${data.azurerm_subscription.current.tenant_id}
-            resource_group: ${data.azurerm_resource_group.main.name}
-            port: 9100
-            refresh_interval: 30s
-EOF
-helm upgrade -i pstack -n kube-system -f ${path.module}/files/prometheus-additional-config.yaml
-EOT
-  }
-}
+# resource "null_resource" "prometheus-additional-config" {
+#   triggers = {
+#     always = timestamp()
+#   }
+#   depends_on = [null_resource.kubeconfig, helm_release.prometheus]
+#   provisioner "local-exec" {
+#     command = <<EOT
+# cat <<-EOF > ${path.module}/files/prometheus-additional-config.yaml
+# prometheus:
+#   prometheusSpec:
+#     additionalScrapeConfigs: |
+#       - job_name: 'azure-sp'
+#         azure_sd_configs:
+#           - tenant_id: ${data.azurerm_subscription.current.tenant_id}
+#             client_id: ${data.vault_generic_secret.az.data["ARM_CLIENT_ID"]}
+#             client_secret: ${data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"]}
+#             subscription_id: ${data.azurerm_subscription.current.tenant_id}
+#             resource_group: ${data.azurerm_resource_group.main.name}
+#             port: 9100
+#             refresh_interval: 30s
+# EOF
+# helm upgrade -i pstack -n kube-system -f ${path.module}/files/prometheus-additional-config.yaml
+# EOT
+#   }
+# }
 
 resource "helm_release" "prometheus" {
   depends_on = [null_resource.kubeconfig]
@@ -70,7 +70,14 @@ resource "helm_release" "prometheus" {
   chart      = "kube-prometheus-stack"
   namespace  = "kube-system"
   values = [
-    file("${path.module}/files/prom-stack.yaml"),
+    #file("${path.module}/files/prom-stack.yaml"),
+    templatefile("${path.module}/files/prom-stack.yaml", {
+      tenant_id       = data.azurerm_subscription.current.tenant_id,
+      client_id       = data.vault_generic_secret.az.data["ARM_CLIENT_ID"],
+      client_secret   = data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"],
+      subscription_id = data.azurerm_subscription.current.tenant_id,
+      resource_group  = data.azurerm_resource_group.main.name
+    })
   ]
 }
 

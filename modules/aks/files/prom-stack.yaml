@@ -17,4 +17,14 @@ prometheus:
     hosts:
       - prometheus-dev.azdevopsb82.online
     path: /
-
+  prometheusSpec:
+    additionalScrapeConfigs: |
+      - job_name: 'azure-sp'
+        azure_sd_configs:
+          - tenant_id: ${tenant_id}
+            client_id: ${client_id}
+            client_secret: ${client_secret}
+            subscription_id: ${subscription_id}
+            resource_group: ${resource_group}
+            port: 9100
+            refresh_interval: 30s
