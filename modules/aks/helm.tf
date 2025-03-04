@@ -75,7 +75,7 @@ resource "helm_release" "prometheus" {
       tenant_id       = data.azurerm_subscription.current.tenant_id,
       client_id       = data.vault_generic_secret.az.data["ARM_CLIENT_ID"],
       client_secret   = data.vault_generic_secret.az.data["ARM_CLIENT_SECRET"],
-      subscription_id = data.azurerm_subscription.current.tenant_id,
+      subscription_id = data.azurerm_subscription.current.subscription_id,
       resource_group  = data.azurerm_resource_group.main.name,
       env             = var.env
     })
