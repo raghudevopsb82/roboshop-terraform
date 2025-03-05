@@ -1,5 +1,11 @@
 terraform {
   backend "azurerm" {}
+
+  required_providers {
+    grafana = {
+      source = "grafana/grafana"
+    }
+  }
 }
 
 provider "azurerm" {
