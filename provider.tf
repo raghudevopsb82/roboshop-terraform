@@ -23,3 +23,8 @@ provider "kubernetes" {
   config_path    = "~/.kube/config"
 }
 
+provider "grafana" {
+  url  = "http://grafana-${env}.azdevopsb82.online/"
+  auth = var.grafana_auth
+}
+
