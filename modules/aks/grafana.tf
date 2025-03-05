@@ -1,4 +1,5 @@
 resource "grafana_folder" "main" {
+  depends_on = [helm_release.prometheus, helm_release.external-dns]
   title = "node-exporters"
   uid   = "node-exporters"
 }
