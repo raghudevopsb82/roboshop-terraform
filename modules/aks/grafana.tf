@@ -1,14 +1,11 @@
-resource "grafana_folder" "test" {
-  title = "My Folder"
-  uid   = "my-folder-uid"
+resource "grafana_folder" "main" {
+  title = "node-exporters"
+  uid   = "node-exporters"
 }
 
-resource "grafana_dashboard" "test" {
-  folder = grafana_folder.test.uid
-  config_json = jsonencode({
-    "title" : "My Dashboard",
-    "uid" : "my-dashboard-uid"
-  })
+resource "grafana_dashboard" "main" {
+  folder = grafana_folder.main.uid
+  config_json = jsonencode(file("${path.module}/grafana-dashboards/node-exporter.json"))
 }
 
 terraform {
