@@ -6,7 +6,7 @@ resource "grafana_folder" "main" {
 
 resource "grafana_dashboard" "main" {
   folder = grafana_folder.main.uid
-  config_json = jsonencode(file("${path.module}/grafana-dashboards/node-exporter.json"))
+  config_json = file("${path.module}/grafana-dashboards/node-exporter.json")
 }
 
 terraform {
