@@ -25,6 +25,6 @@ provider "kubernetes" {
 
 provider "grafana" {
   url  = "http://grafana-${env}.azdevopsb82.online/"
-  auth = var.grafana_auth
+  auth = data.vault_generic_secret.k8s.data["grafana_auth"]
 }
 
