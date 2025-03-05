@@ -11,3 +11,10 @@ resource "grafana_dashboard" "test" {
   })
 }
 
+terraform {
+  required_providers {
+    grafana = {
+      source = "grafana/grafana"
+    }
+  }
+}
