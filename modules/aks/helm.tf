@@ -142,3 +142,15 @@ resource "helm_release" "external-dns" {
 }
 
 
+resource "helm_release" "filebeat" {
+  depends_on = [null_resource.kubeconfig]
+  name       = "filebeat"
+  repository = "https://helm.elastic.co"
+  chart      = "filebeat"
+  namespace  = "kube-system"
+  values = [
+    file("${path.module}/files/filebeat.yaml")
+  ]
+}
+
+
