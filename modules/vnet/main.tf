@@ -11,7 +11,7 @@ resource "azurerm_virtual_network" "main" {
 
 resource "azurerm_subnet" "main" {
   count                = length(var.subnets)
-  name                 = "${var.rg_name}-${var.network_name}-subnet-${count.index+1}"
+  name                 = "${var.rg_name}-${var.network_name}-subnet-${count.index + 1}"
   resource_group_name  = var.rg_name
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = [var.subnets[count.index]]
@@ -20,8 +20,8 @@ resource "azurerm_subnet" "main" {
 
 resource "azurerm_nat_gateway" "main" {
   name                    = "${var.rg_name}-${var.network_name}-ngw"
-  location            = var.rg_location
-  resource_group_name = var.rg_name
+  location                = var.rg_location
+  resource_group_name     = var.rg_name
   sku_name                = "Standard"
   idle_timeout_in_minutes = 10
 }
@@ -41,7 +41,7 @@ resource "azurerm_nat_gateway_public_ip_association" "main" {
 
 resource "azurerm_route_table" "main" {
   count               = length(var.subnets)
-  name                = "${var.rg_name}-${var.network_name}-subnet-${count.index+1}"
+  name                = "${var.rg_name}-${var.network_name}-subnet-${count.index + 1}"
   location            = var.rg_location
   resource_group_name = var.rg_name
 

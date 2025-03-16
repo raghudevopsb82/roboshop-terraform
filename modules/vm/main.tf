@@ -62,8 +62,8 @@ resource "azurerm_dns_a_record" "main" {
 resource "azurerm_virtual_machine" "main" {
   depends_on            = [azurerm_network_interface_security_group_association.main, azurerm_dns_a_record.main]
   name                  = "${var.component}-${var.env}"
-  location            = var.rg_location
-  resource_group_name = var.rg_name
+  location              = var.rg_location
+  resource_group_name   = var.rg_name
   network_interface_ids = [azurerm_network_interface.main.id]
   vm_size               = "Standard_B2s"
 
