@@ -24,7 +24,6 @@ resource "azurerm_nat_gateway" "main" {
   resource_group_name = var.rg_name
   sku_name                = "Standard"
   idle_timeout_in_minutes = 10
-  zones                   = ["1"]
 }
 
 resource "azurerm_public_ip" "main" {
