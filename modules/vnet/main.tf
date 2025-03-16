@@ -47,7 +47,7 @@ resource "azurerm_route_table" "main" {
 
   route {
     name           = "default"
-    address_prefix = var.address_space
+    address_prefix = var.address_space[0]
     next_hop_type  = "VnetLocal"
   }
 
