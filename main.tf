@@ -20,7 +20,7 @@
 module "resource_group" {
   for_each = var.resource_group
   source = "./modules/resource-group"
-  name   =  each.key["name"]
-  location   =  each.key["location"]
+  name   =  each.value["name"]
+  location   =  each.value["location"]
 }
 
