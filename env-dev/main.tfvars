@@ -106,5 +106,20 @@ vnet = {
 }
 
 
+aks = {
+  main = {
+    kubernetes_version = "1.31.5"
+    name               = "dev-aks"
+    default_node_pool = {
+      name                 = "default"
+      node_count           = 2
+      vm_size              = "Standard_D2_v2"
+      auto_scaling_enabled = true
+      min_count            = 2
+      max_count            = 10
+    }
+  }
+}
+
 
 

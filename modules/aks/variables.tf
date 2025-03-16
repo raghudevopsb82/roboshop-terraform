@@ -2,3 +2,10 @@ variable "vault_token" {}
 variable "subscription_id" {}
 variable "virtual_network_name" {}
 variable "env" {}
+variable "rg_name" {}
+variable "rg_location" {}
+variable "rg_id" {}
+variable "kubernetes_version" {}
+variable "name" {}
+variable "default_node_pool" {}
+variable "subnet_ids" {}

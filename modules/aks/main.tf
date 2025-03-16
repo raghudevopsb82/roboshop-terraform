@@ -1,32 +1,31 @@
 resource "azurerm_kubernetes_cluster" "main" {
-  name                = "main"
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
-  kubernetes_version  = "1.31.2"
-  dns_prefix          = "dev"
+  name                = var.name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
+  kubernetes_version  = var.kubernetes_version
+  dns_prefix          = var.env
 
   default_node_pool {
-    name                 = "default"
-    node_count           = 2
-    vm_size              = "Standard_D2_v2"
-    auto_scaling_enabled = true
-    min_count            = 2
-    max_count            = 10
-    #pod_subnet_id = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/project-setup-network/subnets/default"
-    vnet_subnet_id = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/default"
+    name                 = var.default_node_pool["name"]
+    node_count           = var.default_node_pool["node_count"]
+    vm_size              = var.default_node_pool["vm_size"]
+    auto_scaling_enabled = var.default_node_pool["auto_scaling_enabled"]
+    min_count            = var.default_node_pool["min_count"]
+    max_count            = var.default_node_pool["max_count"]
+    vnet_subnet_id       = var.subnet_ids[0]
   }
 
 
 
   aci_connector_linux {
-    subnet_name = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/default"
-  }
+    subnet_name = var.subnet_ids[0]
 
+  }
 
   network_profile {
     network_plugin = "azure"
-    service_cidr   = "10.100.0.0/24"
-    dns_service_ip = "10.100.0.100"
+    service_cidr   = "10.101.0.0/24"
+    dns_service_ip = "10.101.0.100"
   }
 
   identity {
@@ -36,8 +35,6 @@ resource "azurerm_kubernetes_cluster" "main" {
 
   lifecycle {
     ignore_changes = [
-      # Ignore changes to tags, e.g. because a management agent
-      # updates these based on some ruleset managed elsewhere.
       default_node_pool,
     ]
   }

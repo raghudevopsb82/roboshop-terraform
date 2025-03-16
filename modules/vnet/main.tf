@@ -70,20 +70,20 @@ resource "azurerm_subnet_route_table_association" "main" {
 
 
 resource "azurerm_virtual_network_peering" "vnet-to-default" {
-  name                      = "${var.network_name}-to-project-setup-1"
-  resource_group_name       = var.rg_name
-  virtual_network_name      = azurerm_virtual_network.main.name
-  remote_virtual_network_id = var.peer_id
-  allow_forwarded_traffic   = true
+  name                         = "${var.network_name}-to-project-setup-1"
+  resource_group_name          = var.rg_name
+  virtual_network_name         = azurerm_virtual_network.main.name
+  remote_virtual_network_id    = var.peer_id
+  allow_forwarded_traffic      = true
   allow_virtual_network_access = true
 }
 
 resource "azurerm_virtual_network_peering" "default-to-vnet" {
-  name                      = "project-setup-1-to-${var.network_name}"
-  resource_group_name       = "project-setup-1"
-  virtual_network_name      = "main"
-  remote_virtual_network_id = azurerm_virtual_network.main.id
-  allow_forwarded_traffic   = true
+  name                         = "project-setup-1-to-${var.network_name}"
+  resource_group_name          = "project-setup-1"
+  virtual_network_name         = "main"
+  remote_virtual_network_id    = azurerm_virtual_network.main.id
+  allow_forwarded_traffic      = true
   allow_virtual_network_access = true
 }
 
