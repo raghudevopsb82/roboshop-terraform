@@ -51,17 +51,16 @@ resource "azurerm_route_table" "main" {
     next_hop_type  = "VnetLocal"
   }
 
-  route {
-    name           = "nat"
-    address_prefix = "0.0.0.0/0"
-    next_hop_type  = "VirtualNetworkGateway"
-  }
-
   tags = {
     environment = var.env
   }
 }
 
+resource "azurerm_subnet_nat_gateway_association" "main" {
+  count          = length(var.subnets)
+  subnet_id      = azurerm_subnet.main[count.index].id
+  nat_gateway_id = azurerm_nat_gateway.main.id
+}
 
 
 
