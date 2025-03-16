@@ -1,7 +1,7 @@
 resource "azurerm_public_ip" "main" {
   name                = "${var.component}-${var.env}-ip"
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
   allocation_method   = "Static"
 
   tags = {
@@ -11,12 +11,12 @@ resource "azurerm_public_ip" "main" {
 
 resource "azurerm_network_interface" "main" {
   name                = "${var.component}-${var.env}-nic"
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
 
   ip_configuration {
     name                          = "internal"
-    subnet_id                     = data.azurerm_subnet.main.id
+    subnet_id                     = var.subnet_ids[0]
     private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.main.id
   }
@@ -24,8 +24,8 @@ resource "azurerm_network_interface" "main" {
 
 resource "azurerm_network_security_group" "main" {
   name                = "${var.component}-${var.env}-nsg"
-  location            = data.azurerm_resource_group.main.location
-  resource_group_name = data.azurerm_resource_group.main.name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
 
   security_rule {
     name                       = "main"
@@ -53,7 +53,7 @@ resource "azurerm_network_interface_security_group_association" "main" {
 resource "azurerm_dns_a_record" "main" {
   name                = "${var.component}-${var.env}"
   zone_name           = "azdevopsb82.online"
-  resource_group_name = data.azurerm_resource_group.main.name
+  resource_group_name = var.rg_name
   ttl                 = 10
   records             = [azurerm_network_interface.main.private_ip_address]
 }
@@ -62,8 +62,8 @@ resource "azurerm_dns_a_record" "main" {
 resource "azurerm_virtual_machine" "main" {
   depends_on            = [azurerm_network_interface_security_group_association.main, azurerm_dns_a_record.main]
   name                  = "${var.component}-${var.env}"
-  location              = data.azurerm_resource_group.main.location
-  resource_group_name   = data.azurerm_resource_group.main.name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
   network_interface_ids = [azurerm_network_interface.main.id]
   vm_size               = "Standard_B2s"
 
