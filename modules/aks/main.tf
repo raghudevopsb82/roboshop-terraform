@@ -53,8 +53,8 @@ resource "azurerm_role_assignment" "aks-to-acr" {
 }
 
 resource "azurerm_role_assignment" "dns_zone_contributor" {
-  principal_id   = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
+  principal_id         = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
   role_definition_name = "DNS Zone Contributor"
-  scope          = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/dnsZones/azdevopsb82.online"
+  scope                = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/dnsZones/azdevopsb82.online"
 }
 

@@ -99,7 +99,8 @@ resource_group = {
 vnet = {
   main = {
     address_space = ["10.100.0.0/16"]
-    dns_servers         = ["10.100.0.4", "10.100.0.5"]
+    dns_servers   = ["10.100.0.4", "10.100.0.5"]
+    subnets       = ["10.100.1.0/24", "10.100.2.0/24"]
   }
 }
 

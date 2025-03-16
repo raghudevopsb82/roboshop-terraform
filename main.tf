@@ -19,19 +19,21 @@
 
 module "resource_group" {
   for_each = var.resource_group
-  source = "./modules/resource-group"
-  name   =  each.value["name"]
-  location   =  each.value["location"]
+  source   = "./modules/resource-group"
+  name     = each.value["name"]
+  location = each.value["location"]
 }
 
 module "vnet" {
-  for_each = var.vnet
-  source = "./modules/vnet"
-  env = var.env
+  for_each      = var.vnet
+  source        = "./modules/vnet"
+  env           = var.env
+  network_name  = each.key
   address_space = each.value["address_space"]
-  dns_servers = each.value["dns_servers"]
-  rg_name = lookup(lookup(module.resource_group, "main", null), "name", null)
-  rg_location = lookup(lookup(module.resource_group, "main", null), "location", null)
-  rg_id = lookup(lookup(module.resource_group, "main", null), "id", null)
+  dns_servers   = each.value["dns_servers"]
+  subnets       = each.value["subnets"]
+  rg_name       = lookup(lookup(module.resource_group, "main", null), "name", null)
+  rg_location   = lookup(lookup(module.resource_group, "main", null), "location", null)
+  rg_id         = lookup(lookup(module.resource_group, "main", null), "id", null)
 }
 
