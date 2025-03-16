@@ -53,7 +53,7 @@ resource "azurerm_network_interface_security_group_association" "main" {
 resource "azurerm_dns_a_record" "main" {
   name                = "${var.component}-${var.env}"
   zone_name           = "azdevopsb82.online"
-  resource_group_name = var.rg_name
+  resource_group_name = "project-setup-1"
   ttl                 = 10
   records             = [azurerm_network_interface.main.private_ip_address]
 }
