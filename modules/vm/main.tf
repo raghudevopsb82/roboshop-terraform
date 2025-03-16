@@ -1,13 +1,13 @@
-resource "azurerm_public_ip" "main" {
-  name                = "${var.component}-${var.env}-ip"
-  location            = var.rg_location
-  resource_group_name = var.rg_name
-  allocation_method   = "Static"
-
-  tags = {
-    component = "${var.component}-${var.env}-ip"
-  }
-}
+# resource "azurerm_public_ip" "main" {
+#   name                = "${var.component}-${var.env}-ip"
+#   location            = var.rg_location
+#   resource_group_name = var.rg_name
+#   allocation_method   = "Static"
+#
+#   tags = {
+#     component = "${var.component}-${var.env}-ip"
+#   }
+# }
 
 resource "azurerm_network_interface" "main" {
   name                = "${var.component}-${var.env}-nic"
@@ -18,7 +18,7 @@ resource "azurerm_network_interface" "main" {
     name                          = "internal"
     subnet_id                     = var.subnet_ids[0]
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.main.id
+    #public_ip_address_id          = azurerm_public_ip.main.id
   }
 }
 
@@ -110,7 +110,7 @@ resource "null_resource" "ansible" {
       type     = "ssh"
       user     = data.vault_generic_secret.ssh.data["admin_username"]
       password = data.vault_generic_secret.ssh.data["admin_password"]
-      host     = azurerm_public_ip.main.ip_address
+      host     = azurerm_network_interface.main.private_ip_address
     }
 
     inline = [

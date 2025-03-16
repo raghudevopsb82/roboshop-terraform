@@ -7,4 +7,6 @@ variable "dns_servers" {}
 variable "subnets" {}
 variable "network_name" {}
 
+variable "peer_id" {}
+
 

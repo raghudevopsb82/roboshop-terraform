@@ -101,6 +101,7 @@ vnet = {
     address_space = ["10.100.0.0/16"]
     dns_servers   = ["10.100.0.4", "10.100.0.5"]
     subnets       = ["10.100.1.0/24", "10.100.2.0/24"]
+    peer_id       = "/subscriptions/a906d619-0839-4738-a908-227a8b69d458/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/main"
   }
 }
 
