@@ -96,3 +96,13 @@ resource_group = {
   }
 }
 
+vnet = {
+  main = {
+    address_space = ["10.100.0.0/16"]
+    dns_servers         = ["10.100.0.4", "10.100.0.5"]
+  }
+}
+
+
+
+

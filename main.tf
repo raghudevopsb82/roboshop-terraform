@@ -24,3 +24,14 @@ module "resource_group" {
   location   =  each.value["location"]
 }
 
+module "vnet" {
+  for_each = var.vnet
+  source = "./modules/vnet"
+  env = var.env
+  address_space = each.value["address_space"]
+  dns_servers = each.value["dns_servers"]
+  rg_name = lookup(lookup(module.resource_group, "main", null), "name", null)
+  rg_location = lookup(lookup(module.resource_group, "main", null), "location", null)
+  rg_id = lookup(lookup(module.resource_group, "main", null), "id", null)
+}
+
