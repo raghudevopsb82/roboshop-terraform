@@ -9,21 +9,37 @@ resource "azurerm_virtual_network" "main" {
   }
 }
 
-# resource "azurerm_subnet" "example" {
-#   count                = length(var.subnets)
-#   name                 = "${var.rg_name}-${var.network_name}-subnet-${count.index+1}"
-#   resource_group_name  = azurerm_resource_group.example.name
-#   virtual_network_name = azurerm_virtual_network.example.name
-#   address_prefixes     = ["10.0.1.0/24"]
-#
-#   delegation {
-#     name = "delegation"
-#
-#     service_delegation {
-#       name    = "Microsoft.ContainerInstance/containerGroups"
-#       actions = ["Microsoft.Network/virtualNetworks/subnets/join/action", "Microsoft.Network/virtualNetworks/subnets/prepareNetworkPolicies/action"]
-#     }
-#   }
-# }
+resource "azurerm_subnet" "main" {
+  count                = length(var.subnets)
+  name                 = "${var.rg_name}-${var.network_name}-subnet-${count.index+1}"
+  resource_group_name  = var.rg_name
+  virtual_network_name = azurerm_virtual_network.main.name
+  address_prefixes     = [var.subnets[count.index]]
+}
+
+
+resource "azurerm_nat_gateway" "main" {
+  name                    = "${var.rg_name}-${var.network_name}-ngw"
+  location            = var.rg_location
+  resource_group_name = var.rg_name
+  sku_name                = "Standard"
+  idle_timeout_in_minutes = 10
+  zones                   = ["1"]
+}
+
+resource "azurerm_public_ip" "main" {
+  name                = "${var.rg_name}-${var.network_name}-ngw"
+  location            = var.rg_location
+  resource_group_name = var.rg_name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
+
+resource "azurerm_nat_gateway_public_ip_association" "main" {
+  nat_gateway_id       = azurerm_nat_gateway.main.id
+  public_ip_address_id = azurerm_public_ip.main.id
+}
+
+
 
 
