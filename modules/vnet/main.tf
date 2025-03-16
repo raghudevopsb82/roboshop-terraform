@@ -74,6 +74,8 @@ resource "azurerm_virtual_network_peering" "vnet-to-default" {
   resource_group_name       = var.rg_name
   virtual_network_name      = azurerm_virtual_network.main.name
   remote_virtual_network_id = var.peer_id
+  allow_forwarded_traffic   = true
+  allow_virtual_network_access = true
 }
 
 resource "azurerm_virtual_network_peering" "default-to-vnet" {
@@ -81,6 +83,8 @@ resource "azurerm_virtual_network_peering" "default-to-vnet" {
   resource_group_name       = "project-setup-1"
   virtual_network_name      = "main"
   remote_virtual_network_id = azurerm_virtual_network.main.id
+  allow_forwarded_traffic   = true
+  allow_virtual_network_access = true
 }
 
 
