@@ -65,7 +65,7 @@ resource "azurerm_subnet_nat_gateway_association" "main" {
 resource "azurerm_subnet_route_table_association" "main" {
   count          = length(var.subnets)
   subnet_id      = azurerm_subnet.main[count.index].id
-  route_table_id = azurerm_route_table[count.index].main.id
+  route_table_id = azurerm_route_table.main[count.index].id
 }
 
 
