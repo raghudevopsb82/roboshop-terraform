@@ -39,6 +39,29 @@ resource "azurerm_nat_gateway_public_ip_association" "main" {
   public_ip_address_id = azurerm_public_ip.main.id
 }
 
+resource "azurerm_route_table" "main" {
+  count               = length(var.subnets)
+  name                = "${var.rg_name}-${var.network_name}-subnet-${count.index+1}"
+  location            = var.rg_location
+  resource_group_name = var.rg_name
+
+  route {
+    name           = "default"
+    address_prefix = var.address_space
+    next_hop_type  = "VnetLocal"
+  }
+
+  route {
+    name           = "nat"
+    address_prefix = "0.0.0.0/0"
+    next_hop_type  = "VirtualNetworkGateway"
+  }
+
+  tags = {
+    environment = var.env
+  }
+}
+
 
 
 
