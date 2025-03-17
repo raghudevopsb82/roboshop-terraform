@@ -8,7 +8,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   default_node_pool {
     name                 = "default"
     node_count           = 2
-    vm_size              = "Standard_D2_v2"
+    vm_size              = "Standard_D4_v2"
     auto_scaling_enabled = true
     min_count            = 2
     max_count            = 10
@@ -38,7 +38,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     ignore_changes = [
       # Ignore changes to tags, e.g. because a management agent
       # updates these based on some ruleset managed elsewhere.
-      default_node_pool,
+      #default_node_pool,
     ]
   }
 
