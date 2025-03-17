@@ -14,7 +14,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     max_count            = null
     #pod_subnet_id = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/project-setup-network/subnets/default"
     vnet_subnet_id = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/default"
-    temporary_name_for_rotation = "default_node_pool-${timestamp()}"
+    temporary_name_for_rotation = "default_node_pool-${formatdate("DDMMMYYYYhhmm", timestamp())}"
   }
 
 
