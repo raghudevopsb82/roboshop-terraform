@@ -6,12 +6,12 @@ resource "azurerm_kubernetes_cluster" "main" {
   dns_prefix          = "dev"
 
   default_node_pool {
-    name                 = "default"
-    node_count           = 2
+    name                 = "p20250131"
+    node_count           = 1
     vm_size              = "Standard_D4_v2"
-    auto_scaling_enabled = true
-    min_count            = 2
-    max_count            = 10
+    auto_scaling_enabled = false
+#     min_count            = 2
+#     max_count            = 10
     #pod_subnet_id = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/project-setup-network/subnets/default"
     vnet_subnet_id = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/default"
   }
