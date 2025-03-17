@@ -50,7 +50,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
   kubernetes_cluster_id = azurerm_kubernetes_cluster.main.id
   vm_size               = "Standard_D4_v2"
   node_count            = 2
-  enable_auto_scaling = true
+  auto_scaling_enabled  = true
   min_count = 2
   max_count = 10
 }
