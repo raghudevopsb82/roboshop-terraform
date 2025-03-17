@@ -89,10 +89,3 @@ databases = {
   }
 }
 
-resource_group = {
-  main = {
-    name     = "roboshop-dev"
-    location = "UK West"
-  }
-}
-
