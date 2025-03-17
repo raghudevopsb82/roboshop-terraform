@@ -45,6 +45,17 @@ resource "azurerm_kubernetes_cluster" "main" {
 }
 
 
+resource "azurerm_kubernetes_cluster_node_pool" "main" {
+  name                  = "main"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.main.id
+  vm_size               = "Standard_D4_v2"
+  node_count            = 2
+  enable_auto_scaling = true
+  min_count = 2
+  max_count = 10
+}
+
+
 resource "azurerm_role_assignment" "aks-to-acr" {
   principal_id                     = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
   role_definition_name             = "AcrPull"
