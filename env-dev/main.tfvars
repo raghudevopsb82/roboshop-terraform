@@ -64,23 +64,23 @@ env = "dev"
 
 databases = {
 
-  mongodb = {
-    name      = "mongodb"
-    vm_size   = "Standard_DS1_v2"
-    container = false
-  }
-
-  mysql = {
-    name      = "mysql"
-    vm_size   = "Standard_DS1_v2"
-    container = false
-  }
-
-  rabbitmq = {
-    name      = "rabbitmq"
-    vm_size   = "Standard_DS1_v2"
-    container = false
-  }
+#   mongodb = {
+#     name      = "mongodb"
+#     vm_size   = "Standard_DS1_v2"
+#     container = false
+#   }
+#
+#   mysql = {
+#     name      = "mysql"
+#     vm_size   = "Standard_DS1_v2"
+#     container = false
+#   }
+#
+#   rabbitmq = {
+#     name      = "rabbitmq"
+#     vm_size   = "Standard_DS1_v2"
+#     container = false
+#   }
 
   redis = {
     name      = "redis"
