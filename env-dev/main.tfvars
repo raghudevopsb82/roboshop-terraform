@@ -86,7 +86,6 @@ databases = {
     name      = "redis"
     vm_size   = "Standard_DS1_v2"
     container = false
-    vnet      = "main"
   }
 }
 

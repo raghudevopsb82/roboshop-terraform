@@ -23,9 +23,9 @@ module "databases" {
   env         = var.env
   vault_token = var.token
   container   = each.value["container"]
-  rg_name        = module.resource-group[each.key].name
-  rg_location    = module.resource-group[each.key].location
-  subnet_ids     = module.vnet[each.value["vnet"]].subnet_ids
+  rg_name        = module.resource-group["main"].name
+  rg_location    = module.resource-group["main"].location
+  subnet_ids     = module.vnet["main"].subnet_ids
 }
 
 # module "aks" {
