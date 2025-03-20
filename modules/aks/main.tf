@@ -1,25 +1,22 @@
 resource "azurerm_kubernetes_cluster" "main" {
-  name                = "main"
+  name                = var.name
   location            = data.azurerm_resource_group.main.location
   resource_group_name = data.azurerm_resource_group.main.name
   kubernetes_version  = "1.31.2"
-  dns_prefix          = "dev"
+  dns_prefix          = var.env
 
   default_node_pool {
     name                 = "p20250131"
     node_count           = 1
     vm_size              = "Standard_D4_v2"
     auto_scaling_enabled = false
-#     min_count            = 2
-#     max_count            = 10
-    #pod_subnet_id = "/subscriptions/7b6c642c-6e46-418f-b715-e01b2f871413/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/project-setup-network/subnets/default"
-    vnet_subnet_id = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/default"
+    vnet_subnet_id = var.subnet_ids[0]
   }
 
 
 
   aci_connector_linux {
-    subnet_name = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/virtualNetworks/${var.virtual_network_name}/subnets/default"
+    subnet_name = var.subnet_ids[0]
   }
 
 
@@ -45,6 +42,8 @@ resource "azurerm_kubernetes_cluster" "main" {
 }
 
 
+
+
 resource "azurerm_kubernetes_cluster_node_pool" "main" {
   name                  = "main"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.main.id
@@ -53,6 +52,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
   auto_scaling_enabled  = true
   min_count = 2
   max_count = 10
+  vnet_subnet_id = var.subnet_ids[0]
 }
 
 
