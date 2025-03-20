@@ -26,6 +26,7 @@ module "databases" {
   rg_name        = module.resource-group["main"].name
   rg_location    = module.resource-group["main"].location
   subnet_ids     = module.vnet["main"].subnet_ids
+  subscription_id = var.subscription_id
 }
 
 # module "aks" {
