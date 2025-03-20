@@ -21,7 +21,7 @@ resource "azurerm_virtual_network_peering" "main-to-project" {
   name                      = "main-to-project"
   resource_group_name       = var.rg_name
   virtual_network_name      = azurerm_virtual_network.main.name
-  remote_virtual_network_id = data.azurerm_virtual_network.project.name
+  remote_virtual_network_id = data.azurerm_virtual_network.project.id
 }
 
 resource "azurerm_virtual_network_peering" "project-to-mai" {
