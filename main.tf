@@ -12,6 +12,7 @@ module "vnet" {
   rg_location    = module.resource-group[each.key].location
   address_space  = each.value["address_space"]
   env            = var.env
+  subnets        = each.value["subnets"]
 }
 
 
