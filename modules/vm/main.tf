@@ -94,28 +94,28 @@ resource "azurerm_virtual_machine" "main" {
   }
 }
 
-# locals {
-#   component = var.container ? "${var.component}-docker" : var.component
-# }
-#
-# resource "null_resource" "ansible" {
-#
-#   depends_on = [azurerm_virtual_machine.main]
-#
-#   provisioner "remote-exec" {
-#
-#     connection {
-#       type     = "ssh"
-#       user     = data.vault_generic_secret.ssh.data["admin_username"]
-#       password = data.vault_generic_secret.ssh.data["admin_password"]
-#       host     = azurerm_public_ip.main.ip_address
-#     }
-#
-#     inline = [
-#       "sudo dnf install python3.12-pip -y",
-#       "sudo pip3.12 install ansible hvac",
-#       "ansible-pull -i localhost, -U https://github.com/raghudevopsb82/roboshop-ansible roboshop.yml -e app_name=${local.component} -e ENV=${var.env} -e vault_token=${var.vault_token}"
-#     ]
-#   }
-# }
-#
+locals {
+  component = var.container ? "${var.component}-docker" : var.component
+}
+
+resource "null_resource" "ansible" {
+
+  depends_on = [azurerm_virtual_machine.main]
+
+  provisioner "remote-exec" {
+
+    connection {
+      type     = "ssh"
+      user     = data.vault_generic_secret.ssh.data["admin_username"]
+      password = data.vault_generic_secret.ssh.data["admin_password"]
+      host     = azurerm_network_interface.main.private_ip_address
+    }
+
+    inline = [
+      "sudo dnf install python3.12-pip -y",
+      "sudo pip3.12 install ansible hvac",
+      "ansible-pull -i localhost, -U https://github.com/raghudevopsb82/roboshop-ansible roboshop.yml -e app_name=${local.component} -e ENV=${var.env} -e vault_token=${var.vault_token}"
+    ]
+  }
+}
+
