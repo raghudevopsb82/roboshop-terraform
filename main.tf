@@ -5,6 +5,15 @@ module "resource-group" {
   name            = each.value["name"]
 }
 
+module "vnet" {
+  for_each       = var.vnets
+  source         = "./modules/vnet"
+  rg_name        = module.resource-group[each.key].name
+  rg_location    = module.resource-group[each.key].location
+  address_space  = each.value["address_space"]
+  env            = var.env
+}
+
 
 # module "databases" {
 #   for_each    = var.databases
