@@ -89,3 +89,10 @@ databases = {
   }
 }
 
+resource_groups = {
+  main = {
+    name = "dev"
+    location = "UK West"
+  }
+}
+
