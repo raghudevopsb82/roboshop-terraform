@@ -8,7 +8,7 @@ extraVolumeMounts:
     mountPath: /etc/kubernetes
     readOnly: true
 
-#provider: azure
+provider: azure
 
 podLabels:
   azure.workload.identity/use: "true"
