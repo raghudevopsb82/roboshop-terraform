@@ -27,6 +27,7 @@ module "databases" {
   rg_location    = module.resource-group["main"].location
   subnet_ids     = module.vnet["main"].subnet_ids
   subscription_id = var.subscription_id
+  bastion_node    = var.bastion_node
 }
 
 module "aks" {

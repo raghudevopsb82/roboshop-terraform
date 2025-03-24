@@ -27,14 +27,14 @@ resource "azurerm_network_security_group" "main" {
   resource_group_name = var.rg_name
 
   security_rule {
-    name                       = "main"
+    name                       = "SSH"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
+    source_port_range          = "22"
+    destination_port_range     = "22"
+    source_address_prefix      = var.bastion_node
     destination_address_prefix = "*"
   }
 
