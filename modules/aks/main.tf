@@ -10,7 +10,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     node_count           = 1
     vm_size              = "Standard_D4_v2"
     auto_scaling_enabled = false
-    vnet_subnet_id = var.subnet_ids[0]
+    vnet_subnet_id       = var.subnet_ids[0]
   }
 
 
@@ -50,9 +50,9 @@ resource "azurerm_kubernetes_cluster_node_pool" "main" {
   vm_size               = "Standard_D4_v2"
   node_count            = 2
   auto_scaling_enabled  = true
-  min_count = 2
-  max_count = 10
-  vnet_subnet_id = var.subnet_ids[0]
+  min_count             = 2
+  max_count             = 10
+  vnet_subnet_id        = var.subnet_ids[0]
 }
 
 
@@ -64,8 +64,8 @@ resource "azurerm_role_assignment" "aks-to-acr" {
 }
 
 resource "azurerm_role_assignment" "dns_zone_contributor" {
-  principal_id   = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
+  principal_id         = azurerm_kubernetes_cluster.main.kubelet_identity[0].object_id
   role_definition_name = "DNS Zone Contributor"
-  scope          = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/dnsZones/azdevopsb82.online"
+  scope                = "/subscriptions/${var.subscription_id}/resourceGroups/project-setup-1/providers/Microsoft.Network/dnsZones/azdevopsb82.online"
 }
 

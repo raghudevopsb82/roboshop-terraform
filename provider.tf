@@ -3,7 +3,7 @@ terraform {
 
   required_providers {
     grafana = {
-      source = "grafana/grafana"
+      source  = "grafana/grafana"
       version = "3.21.0"
     }
   }
@@ -27,7 +27,7 @@ provider "helm" {
 }
 
 provider "kubernetes" {
-  config_path    = "~/.kube/config"
+  config_path = "~/.kube/config"
 }
 
 provider "grafana" {
