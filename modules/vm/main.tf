@@ -27,14 +27,14 @@ resource "azurerm_network_security_group" "main" {
   resource_group_name = var.rg_name
 
   security_rule {
-    name                       = "SSH"
+    name                       = "main"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
-    source_port_range          = "22"
-    destination_port_range     = "22"
-    source_address_prefix      = var.bastion_node
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
 
@@ -61,8 +61,8 @@ resource "azurerm_dns_a_record" "main" {
 resource "azurerm_virtual_machine" "main" {
   depends_on            = [azurerm_network_interface_security_group_association.main, azurerm_dns_a_record.main]
   name                  = "${var.component}-${var.env}"
-  location              = var.rg_location
-  resource_group_name   = var.rg_name
+  location            = var.rg_location
+  resource_group_name = var.rg_name
   network_interface_ids = [azurerm_network_interface.main.id]
   vm_size               = var.vm_size
 
