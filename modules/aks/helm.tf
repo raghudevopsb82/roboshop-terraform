@@ -175,4 +175,16 @@ resource "helm_release" "filebeat" {
   ]
 }
 
+resource "helm_release" "cert-manager" {
+  depends_on = [null_resource.kubeconfig]
+  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  namespace  = "ingress-nginx"
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+}
 
