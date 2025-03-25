@@ -34,7 +34,7 @@ resource "azurerm_network_security_group" "main" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "10.1.0.4/32"
+    source_address_prefix      = "10.1.0.4/32" #workstation private ip
     destination_address_prefix = "*"
   }
 
@@ -46,7 +46,7 @@ resource "azurerm_network_security_group" "main" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "10.1.0.0/16"
+    source_address_prefix      = "10.1.0.0/16" #workstation cidr
     destination_address_prefix = "*"
   }
 
