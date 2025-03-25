@@ -27,14 +27,26 @@ resource "azurerm_network_security_group" "main" {
   resource_group_name = var.rg_name
 
   security_rule {
-    name                       = "main"
+    name                       = "main-ssh-allow"
     priority                   = 100
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "10.1.0.4/32"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "main-ssh-deny"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Deny"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "10.1.0.0/16"
     destination_address_prefix = "*"
   }
 
