@@ -40,7 +40,7 @@ resource "azurerm_network_security_group" "main" {
 
   security_rule {
     name                       = "main-ssh-deny"
-    priority                   = 100
+    priority                   = 101
     direction                  = "Inbound"
     access                     = "Deny"
     protocol                   = "Tcp"
