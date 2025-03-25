@@ -46,7 +46,7 @@ resource "azurerm_network_security_group" "main" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "10.1.0.0/16" #workstation cidr
+    source_address_prefix      = "10.1.0.0/16" #workstation vnet cidr
     destination_address_prefix = "*"
   }
 
