@@ -30,14 +30,14 @@ module "databases" {
   bastion_node    = var.bastion_node
 }
 
-module "aks" {
-  for_each             = var.aks
-  source               = "./modules/aks"
-  vault_token          = var.token
-  subscription_id      = var.subscription_id
-  virtual_network_name = "main"
-  env                  = var.env
-  name                 = each.key
-  subnet_ids           = module.vnet["main"].subnet_ids
-}
-
+# module "aks" {
+#   for_each             = var.aks
+#   source               = "./modules/aks"
+#   vault_token          = var.token
+#   subscription_id      = var.subscription_id
+#   virtual_network_name = "main"
+#   env                  = var.env
+#   name                 = each.key
+#   subnet_ids           = module.vnet["main"].subnet_ids
+# }
+#
