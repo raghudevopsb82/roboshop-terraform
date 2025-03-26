@@ -92,7 +92,8 @@ databases = {
 resource_groups = {
   main = {
     name     = "dev"
-    location = "UK West"
+    location = "East US 2"
+    #location = "UK West"
   }
 }
 
