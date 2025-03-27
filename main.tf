@@ -29,6 +29,7 @@ module "databases" {
   subnet_ids      = module.vnet["main"].subnet_ids
   subscription_id = var.subscription_id
   bastion_node    = var.bastion_node
+  subnets_cidr    = var.vnets["main"].subnets
 }
 
 module "aks" {

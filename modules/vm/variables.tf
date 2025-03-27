@@ -9,4 +9,5 @@ variable "subnet_ids" {}
 variable "subscription_id" {}
 variable "bastion_node" {}
 variable "port" {}
+variable "subnets_cidr" {}
 
