@@ -27,7 +27,7 @@ resource "azurerm_network_security_group" "main" {
   resource_group_name = var.rg_name
 
   security_rule {
-    name                       = "main"
+    name                       = "default-deny"
     priority                   = 4096
     direction                  = "Inbound"
     access                     = "Deny"
@@ -46,7 +46,7 @@ resource "azurerm_network_security_group" "main" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "10.1.0.4/32"
+    source_address_prefix      = var.bastion_node
     destination_address_prefix = "*"
   }
 
