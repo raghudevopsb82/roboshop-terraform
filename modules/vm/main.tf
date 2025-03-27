@@ -50,6 +50,19 @@ resource "azurerm_network_security_group" "main" {
     destination_address_prefix = "*"
   }
 
+
+  security_rule {
+    name                       = "db-port"
+    priority                   = 101
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = var.port
+    source_address_prefixes    = var.subnet_ids
+    destination_address_prefix = "*"
+  }
+
   tags = {
     component = "${var.component}-${var.env}-nsg"
   }

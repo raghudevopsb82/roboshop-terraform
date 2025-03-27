@@ -20,6 +20,7 @@ module "databases" {
   source          = "./modules/vm"
   component       = each.value["name"]
   vm_size         = each.value["vm_size"]
+  port            = each.value["port"]
   env             = var.env
   vault_token     = var.token
   container       = each.value["container"]
