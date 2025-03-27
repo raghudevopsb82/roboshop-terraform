@@ -28,7 +28,7 @@ resource "azurerm_network_security_group" "main" {
 
   security_rule {
     name                       = "main"
-    priority                   = 65000
+    priority                   = 4096
     direction                  = "Inbound"
     access                     = "Deny"
     protocol                   = "Tcp"
