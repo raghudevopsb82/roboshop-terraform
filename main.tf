@@ -42,3 +42,6 @@ module "aks" {
   subnet_ids           = module.vnet["main"].subnet_ids
 }
 
+output "x" {
+  value = module.vnet["main"].subnet_ids
+}
