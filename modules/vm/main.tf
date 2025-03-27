@@ -28,13 +28,25 @@ resource "azurerm_network_security_group" "main" {
 
   security_rule {
     name                       = "main"
-    priority                   = 100
+    priority                   = 65000
     direction                  = "Inbound"
-    access                     = "Allow"
+    access                     = "Deny"
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "*"
     source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "ssh"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "22"
+    destination_port_range     = "22"
+    source_address_prefix      = "10.1.0.4/32"
     destination_address_prefix = "*"
   }
 
